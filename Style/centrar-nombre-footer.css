@@ -1,0 +1,21 @@
+/* centrar texto cuando se escribe o se enfoca */
+#Buscar_nombre:focus,
+#Buscar_nombre:not(:placeholder-shown) {
+    text-align: center;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+footer input::placeholder {
+    text-align: center;
+}
+
+footer input:focus {
+    box-shadow: none;
+    border-color: #ccc;
+}

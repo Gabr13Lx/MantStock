@@ -1,0 +1,25 @@
+        /* Video de fondo a pantalla completa */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            /* Fondo blanco casi sólido */
+        }
+
+        img.logo {
+            filter: invert(1);
+            /* Invierte color del ícono de negro a blanco */
+        }

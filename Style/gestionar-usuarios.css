@@ -1,0 +1,40 @@
+/* Asegura que el body se expanda hasta el 100% de la altura */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Flexbox vertical que empuja el footer hacia abajo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenido principal debe crecer si hay espacio */
+.main-content {
+    flex: 1;
+}
+.espacio-ajustado {
+    margin-bottom: 1.5rem; /* o el valor que visualmente se vea mejor */
+}
+
+
+/* Estilo opcional para que los botones se vean más consistentes */
+#btn_modificar {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+
+#btn_reiniciar {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.campo-destacado:read-only {
+    color: #212529; /* Gris oscuro Bootstrap */
+    font-weight: 600; /* O usa bold si lo prefieres */
+    background-color: #fff !important; /* Evita el gris del fondo en readonly */
+}

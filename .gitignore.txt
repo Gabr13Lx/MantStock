@@ -1,0 +1,32 @@
+# Archivos de configuración local
+.env
+.env.local
+
+# Dependencias
+node_modules/
+
+# Archivos compilados
+bin/
+obj/
+
+# Configuraciones de editor
+.vscode/
+.idea/
+*.code-workspace
+
+# Archivos de log
+*.log
+npm-debug.log*
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Archivos subidos por usuarios
+uploads/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

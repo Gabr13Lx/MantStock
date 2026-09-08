@@ -1,0 +1,49 @@
+DROP DATABASE IF EXISTS MantStock;
+CREATE DATABASE MantStock;
+USE MantStock;
+
+CREATE TABLE Usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    primer_nombre VARCHAR(20) NOT NULL,
+    primer_apellido VARCHAR(20) NOT NULL,
+    correo VARCHAR(70) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL,
+    rol ENUM('Administrador', 'Usuario') NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo'
+) ENGINE=InnoDB;
+
+CREATE TABLE Categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    descripcion TEXT
+) ENGINE=InnoDB;
+
+CREATE TABLE Materiales (
+    id_material INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    numero_serie VARCHAR(100) DEFAULT NULL,
+    precio INT DEFAULT 0,
+    cantidad INT DEFAULT 0,
+    ubicacion VARCHAR(100) DEFAULT NULL,
+    id_categoria INT NOT NULL,
+    planta ENUM('Agua', 'Latas', 'Jugos') NOT NULL,
+    tipo_gestion ENUM('Unidad', 'Serie', 'Retornable') NOT NULL,
+    imagen VARCHAR(255) DEFAULT 'fallback.png',
+    FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+) ENGINE=InnoDB;
+
+CREATE TABLE Movimientos (
+    id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('Entrada', 'Salida', 'Retorno') NOT NULL,
+    cantidad INT NOT NULL,
+    fecha_movimiento DATETIME DEFAULT CURRENT_TIMESTAMP,
+    descripcion_salida TEXT NOT NULL,
+    observaciones TEXT NOT NULL,
+    planta_movimiento ENUM('Agua', 'Latas', 'Jugos') NOT NULL,
+    id_material INT NOT NULL,
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_material) REFERENCES Materiales(id_material),
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+) ENGINE=InnoDB;

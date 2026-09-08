@@ -1,0 +1,19 @@
+/* Puedes agregarlo en tu archivo CSS general */
+.table td,
+.table th {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@media (max-width: 576px) {
+  .table td,
+  .table th {
+    font-size: 0.85rem;
+    white-space: normal;
+  }
+
+  .table td img {
+    max-width: 40px;
+    height: auto;
+  }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página Principal</title>
+  <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+  <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png">
+  <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="../Style/nav_usrNormal.css">
+  <link rel="stylesheet" href="../Style/centrar-nombre-footer.css">
+  <link rel="stylesheet" href="../Style/invetirLogo.css">
+  <link rel="stylesheet" href="../Style/pagina-usr-norm.css">
+
+  <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+  <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+  <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+  <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+  <script src="../FuncionesJS/FuncionesCarga/Crg-pag-prin-usr.js"></script>
+  <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+  <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+  <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+
+</head>
+
+<body class="bg-white d-flex flex-column min-vh-100">
+
+  <!-- ENCABEZADO -->
+  <header class="bg-black text-white py-2 position-relative">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+      <!-- Logo -->
+      <div class="d-flex align-items-center">
+        <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="icon-log" />
+      </div>
+
+      <!-- Título -->
+      <h1 class="titulo-inventario text-uppercase m-0">Inventario</h1>
+
+      <!-- Botón Cerrar Sesión -->
+      <div id="btnCerrarSesion" role="button" tabindex="0"
+        class="d-flex align-items-center nav-link-group px-2 py-1 me-2 cerrar-sesion">
+        <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Cerrar sesión" width="20" height="20"
+          class="me-1 icon" />
+        <span class="text-white">Cerrar Sesión</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========= ENCABEZADO DE BIENVENIDA ========= -->
+  <div class="d-flex align-items-center justify-content-center mt-3 mb-2 px-3">
+    <!-- Flecha de regresar -->
+    <div class="me-auto" role="button" onclick="history.back()" aria-label="Regresar">
+      <i class="bi bi-arrow-left-circle-fill fs-2 text-black"></i>
+    </div>
+
+    <!-- Mensaje de bienvenida -->
+    <div class="text-center w-100">
+      <h2 class="text-black m-0 fw-bold">¡HOLA, BIENVENID@!</h2>
+      <p class="text-secondary m-0">Para navegar, usa los botones con imágenes.</p>
+    </div>
+  </div>
+
+  <main class="flex-grow-1">
+    <div class="container py-4">
+      <div class="row g-3 justify-content-center">
+        <!-- Botón 1 -->
+        <div class="col-12 col-sm-6 col-md-4 d-flex">
+          <a href="mis-movimientos.html"
+            class="btn-icon icon-button w-100 d-flex flex-column align-items-center text-decoration-none">
+            <img src="RecursosVisuales/Iconos/history.png" alt="Historial de Movimientos" loading="lazy" />
+            <span>Historial de Mis Movimientos</span>
+          </a>
+        </div>
+
+        <!-- Botón 2 -->
+        <div class="col-12 col-sm-6 col-md-4 d-flex">
+          <a href="gestionar-item-usuario.html"
+            class="btn-icon icon-button w-100 d-flex flex-column align-items-center text-decoration-none">
+            <img src="RecursosVisuales/Iconos/gestion.png" alt="Gestionar Materiales" loading="lazy" />
+            <span>Gestionar Materiales</span>
+          </a>
+        </div>
+
+        <!-- Botón 3 -->
+        <div class="col-12 col-sm-6 col-md-4 d-flex">
+          <a href="mi-perfil-usuario.html"
+            class="btn-icon icon-button w-100 d-flex flex-column align-items-center text-decoration-none">
+            <img src="RecursosVisuales/Iconos/mi-perfil.png" alt="Mi perfil" loading="lazy" />
+            <span>Mi perfil</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========= PIE DE PÁGINA ========= -->
+  <footer class="bg-black text-white text-center py-2 mt-auto">
+    <div class="container">
+      <div class="mb-2">
+        <input type="text" id="Buscar_nombre" class="form-control form-control-sm mx-auto w-auto"
+          placeholder="Buscando..." readonly />
+      </div>
+      <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

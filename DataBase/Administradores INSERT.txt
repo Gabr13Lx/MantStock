@@ -1,0 +1,9 @@
+--CONTRASEÑAS DE CADA USUARIO para loguearse:
+-- CORREO : CONTRASEÑA
+
+-- JungleGroup1@bev.mx : 1JungleGroup
+-- PedroVilleda2@bev.mx : 2PedroVilleda
+
+INSERT INTO usuarios (primer_nombre, primer_apellido, correo, contrasena, rol) VALUES
+('Jungle', 'Group', 'JungleGroup1@bev.mx', '$2y$10$OvqA783GBCD2/D/jviV0Pu8rm55JHWWjOCTfK.29XeF2aEUQLQo4O', 'Administrador'),
+('Pedro', 'Villeda', 'PedroVilleda2@bev.mx', '$2y$10$2BCVYKBMRGwCYM555/ttwOrK3tsnji8yh/b/7pYuyqNPrYDUkF7vu', 'Administrador');

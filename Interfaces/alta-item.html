@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- ========= METADATOS BÁSICOS ========= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alta Item</title>
+
+    <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+    <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="../Style/nav.css">
+    <link rel="stylesheet" href="../Style/centrar-nombre-footer.css">
+    <link rel="stylesheet" href="../Style/invetirLogo.css">
+    <link rel="stylesheet" href="../Style/pie-pagina.css">
+
+    <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+    <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+    <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+    <script src="../FuncionesJS/FuncionesCarga/Crg-alta-item.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxRegistrarItem.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCargarCategorias.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/filtrarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/LimpiarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+</head>
+
+<body>
+    <!--BARRA DE NAVEGACION--><!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #000; border-bottom: 2px solid #fff;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- LOGO: clicable, a la izquierda -->
+            <a class="navbar-brand d-flex align-items-center" href="pagina-principal-admin.html" aria-label="Inicio">
+                <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="me-2 icon-log">
+            </a>
+
+            <!-- TÍTULO "Inventario": centrado solo visible en md+ -->
+            <div class="titulo-inventario d-none d-md-block text-white text-center mx-auto"
+                aria-label="Título de la aplicación">
+                Inventario
+            </div>
+
+            <!-- BOTÓN HAMBURGUESA: visible en móvil, derecha -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
+                aria-controls="menuNav" aria-expanded="false" aria-label="Alternar menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <!-- MENÚ DESPLEGABLE: centrado en móvil, horizontal en desktop -->
+        <div class="collapse navbar-collapse" id="menuNav">
+            <ul class="navbar-nav mx-auto nav-menu-reducido" role="menu">
+                <!-- HOME -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="pagina-principal-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/home.png" alt="Icono Home" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <!-- USUARIOS (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="usuariosDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/users.png" alt="Icono Usuarios" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Usuarios</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="usuariosDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-usuario.html" role="menuitem">Crear
+                                Usuario</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-usuarios.html"
+                                role="menuitem">Gestionar Usuarios</a></li>
+                    </ul>
+                </li>
+
+                <!-- ALMACÉN (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="almacenDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/item.png" alt="Icono Almacén" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Almacén</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="almacenDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="alta-item.html" role="menuitem">Alta de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestion-item.html" role="menuitem">Gestión de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-item-admin.html" role="menuitem">Mover
+                                Material</a></li>
+                    </ul>
+                </li>
+
+                <!-- CATEGORÍA (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="categoriaDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/categoria.png" alt="Icono Categoría" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Categoría</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoriaDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-categoria.html" role="menuitem">Crear
+                                Categoría</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-categorias.html"
+                                role="menuitem">Gestionar Categorías</a></li>
+                    </ul>
+                </li>
+
+                <!-- MOVIMIENTOS -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="movimientos-item.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/historial.png" alt="Icono Movimientos" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Movimientos</span>
+                    </a>
+                </li>
+
+                <!-- PERFIL -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="mi-perfil-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/yo.png" alt="Icono Perfil" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+
+                <!-- CERRAR SESIÓN -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" id="btnCerrarSesion" role="button"
+                        tabindex="0">
+                        <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Icono Cerrar Sesión" width="20"
+                            height="20" class="me-2 icon" />
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ENCABEZADO FUERA DEL CARD -->
+    <div class="container mt-5">
+        <!-- ENCABEZADO CON BOTÓN VOLVER -->
+        <div class="position-relative mb-4 w-100">
+            <!-- Botón volver: colocado absoluto arriba-izquierda para no interferir con el título -->
+            <button class="btn btn-link text-dark p-0 position-absolute top-0 start-0" onclick="history.back()"
+                title="Volver" aria-label="Volver a la página anterior">
+                <i class="bi bi-arrow-left-circle-fill fs-3"></i>
+            </button>
+            <h2 class="text-center mb-1 fw-bold">Registrar Material</h2>
+        </div>
+
+        <!-- CARD CONTENEDOR DEL FORMULARIO -->
+        <div class="mb-3 card shadow">
+            <!-- Encabezado con fondo negro -->
+            <div class="card-header bg-dark text-white">
+                <h6 class="mb-1 fw-bold text-center">Alta de Nuevo Ítem</h6>
+            </div>
+            <!-- Formulario dentro del card-body -->
+            <div class="card-body">
+                <p class="mb-2 small">NOTA: Los campos marcados con <span class="text-danger fw-bold">*</span> son
+                    obligatorios</p>
+                <form id="formRegistroItem" enctype="multipart/form-data">
+                    <!-- Fila 1: Nombre y número de serie -->
+                    <div class="row mb-4">
+                        <!-- Nombre obligatorio -->
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre del Material <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" id="nombre" name="nombre" class="form-control"
+                                placeholder="Nombre del Material a Registrar" required>
+                        </div>
+                        <!-- Número de serie opcional -->
+                        <div class="col-md-6">
+                            <label for="numero_serie" class="form-label">Número de Serie</label>
+                            <input type="text" id="numero_serie" name="numero_serie"
+                                placeholder="Número del Material (si aplica)" class="form-control">
+                        </div>
+                    </div>
+                    <!-- Fila 2: Tipo de gestión y categoría -->
+                    <div class="row mb-4">
+                        <!-- Tipo de gestión obligatorio -->
+                        <div class="col-md-4">
+                            <label for="tipo_gestion" class="form-label">Tipo de Gestión <span
+                                    class="text-danger">*</span></label>
+                            <select id="tipo_gestion" name="tipo_gestion" class="form-select" required>
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                <option value="Unidad">Por unidad</option>
+                                <option value="Serie">Por número de serie</option>
+                                <option value="Retornable">Retornable</option>
+                            </select>
+                        </div>
+                        <!-- Almacen de X Planta -->
+                        <div class="col-md-4">
+                            <label for="Ubicacion_almacen" class="form-label">Ubicación de Almacen<span
+                                    class="text-danger">*</span></label>
+                            <select id="Ubicacion_almacen" name="Ubicacion_almacen" class="form-select" required>
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                <option value="Agua">Agua (SAS-1)</option>
+                                <option value="Latas">Latas (SAS-2)</option>
+                                <option value="Jugos">Jugos (SAS-3)</option>
+                            </select>
+                        </div>
+                        <!-- Categoría obligatoria -->
+                        <div class="col-md-4">
+                            <label for="id_categoria" class="form-label">Categoría <span
+                                    class="text-danger">*</span></label>
+                            <select id="id_categoria" name="id_categoria" class="form-select" required>
+                                <option value="" selected disabled>Seleccione una categoría</option>
+                                <!-- Se llena dinámicamente con JS -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fila 3: Cantidad, precio, ubicación -->
+                    <div class="row mb-4">
+                        <!-- Cantidad obligatoria -->
+                        <div class="col-md-4">
+                            <label for="cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" min="0"
+                                placeholder="Cantidad disponible" required>
+                        </div>
+                        <!-- Precio opcional -->
+                        <div class="col-md-4">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input type="text" id="precio" name="precio" class="form-control"
+                                placeholder="Precio actual del producto (si aplica)">
+                        </div>
+                        <!-- Ubicación opcional -->
+                        <div class="col-md-4">
+                            <label for="ubicacion" class="form-label">Ubicación</label>
+                            <input type="text" id="ubicacion" name="ubicacion" class="form-control"
+                                placeholder="Ubicación física dentro del Almacen">
+                        </div>
+                    </div>
+
+
+
+                    <!-- Fila 4: Descripción -->
+                    <div class="mb-4">
+                        <label for="descripcion" class="form-label">Descripción <span
+                                class="text-danger">*</span></label>
+                        <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
+                            placeholder="Describe aquí el ítem a registrar" required></textarea>
+                    </div>
+
+                    <!-- Fila 5: Imagen -->
+                    <div class="mb-4">
+                        <label for="imagen" class="form-label">Imagen del ítem (png, jpeg, jpg / Máximo: 2MB)</label>
+                        <input type="file" id="imagen" name="imagen" class="form-control" accept="image/jpeg, image/png, image/jpg">
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="mt-5 d-flex flex-column flex-md-row gap-3">
+                        <input type="reset" id="btn_limpiar" value="Limpiar Campos"
+                            class="btn btn-outline-secondary w-100">
+                        <input type="submit" id="btn_registrar" value="Registrar Ítem" class="btn btn-success w-100">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-black text-white text-center py-2 mt-auto">
+        <div class="container">
+            <div class="mb-2">
+                <input type="text" id="Buscar_nombre" class="form-control form-control-sm mx-auto w-auto"
+                    placeholder="Buscando..." readonly>
+            </div>
+            <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

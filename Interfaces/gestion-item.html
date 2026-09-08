@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- ========= METADATOS BÁSICOS ========= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestionar Items</title>
+
+    <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+    <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="../Style/nav.css">
+    <link rel="stylesheet" href="../Style/centrar-nombre-footer.css">
+    <link rel="stylesheet" href="../Style/invetirLogo.css">
+    <link rel="stylesheet" href="../Style/pie-pagina.css">
+
+
+    <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+    <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+    <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+    <script src="../FuncionesJS/FuncionesCarga/Carg-gestion-item.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/jaxBuscarItem.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/Ajax_Buscar_Material_Editar_SELECT.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/ajaxGuardarCambiosItem.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCargarCategorias.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/filtrarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/LimpiarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+
+    <style>
+        #formGestionarItem .row>.col-md-4 {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        #formGestionarItem img#img_item_actual {
+            max-height: 200px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        label.form-label {
+            text-align: left !important;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #000; border-bottom: 2px solid #fff;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- LOGO: clicable, a la izquierda -->
+            <a class="navbar-brand d-flex align-items-center" href="pagina-principal-admin.html" aria-label="Inicio">
+                <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="me-2 icon-log">
+            </a>
+
+            <!-- TÍTULO "Inventario": centrado solo visible en md+ -->
+            <div class="titulo-inventario d-none d-md-block text-white text-center mx-auto"
+                aria-label="Título de la aplicación">
+                Inventario
+            </div>
+
+            <!-- BOTÓN HAMBURGUESA: visible en móvil, derecha -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
+                aria-controls="menuNav" aria-expanded="false" aria-label="Alternar menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <!-- MENÚ DESPLEGABLE: centrado en móvil, horizontal en desktop -->
+        <div class="collapse navbar-collapse" id="menuNav">
+            <ul class="navbar-nav mx-auto nav-menu-reducido" role="menu">
+                <!-- HOME -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="pagina-principal-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/home.png" alt="Icono Home" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <!-- USUARIOS (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="usuariosDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/users.png" alt="Icono Usuarios" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Usuarios</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="usuariosDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-usuario.html" role="menuitem">Crear
+                                Usuario</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-usuarios.html"
+                                role="menuitem">Gestionar Usuarios</a></li>
+                    </ul>
+                </li>
+
+                <!-- ALMACÉN (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="almacenDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/item.png" alt="Icono Almacén" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Almacén</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="almacenDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="alta-item.html" role="menuitem">Alta de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestion-item.html" role="menuitem">Gestión de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-item-admin.html" role="menuitem">Mover
+                                Material</a></li>
+                    </ul>
+                </li>
+
+                <!-- CATEGORÍA (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="categoriaDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/categoria.png" alt="Icono Categoría" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Categoría</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoriaDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-categoria.html" role="menuitem">Crear
+                                Categoría</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-categorias.html"
+                                role="menuitem">Gestionar Categorías</a></li>
+                    </ul>
+                </li>
+
+                <!-- MOVIMIENTOS -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="movimientos-item.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/historial.png" alt="Icono Movimientos" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Movimientos</span>
+                    </a>
+                </li>
+
+                <!-- PERFIL -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="mi-perfil-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/yo.png" alt="Icono Perfil" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+
+                <!-- CERRAR SESIÓN -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" id="btnCerrarSesion" role="button"
+                        tabindex="0">
+                        <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Icono Cerrar Sesión" width="20"
+                            height="20" class="me-2 icon" />
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container mt-5 mb-5">
+
+        <!-- ENCABEZADO CON BOTÓN VOLVER -->
+        <div class="row">
+            <div class="position-relative w-100 mb-3">
+                <button class="btn btn-link text-dark p-0 position-absolute top-0 start-0" onclick="history.back()"
+                    title="Volver" aria-label="Volver a la página anterior">
+                    <i class="bi bi-arrow-left-circle-fill fs-3"></i>
+                </button>
+                <h2 class="text-center fw-bold mb-0">Gestión de Materiales</h2>
+            </div>
+        </div>
+
+        <!-- BÚSQUEDA POR NOMBRE DE MATERIAL (visual tipo tarjeta) -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="card shadow-sm border">
+
+                    <!-- Franja negra -->
+                    <div class="card-header bg-dark text-white text-center fw-bold">
+                        Buscar Material para Modificar
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- Descripción funcional -->
+                        <p class="form-text text-muted mb-3">
+                            <b>Instucciones:</b> Seleccione la planta donde se encuentra el material y luego escriba su
+                            nombre.
+                            Al ingresar
+                            al menos 2 caracteres, se mostrarán coincidencias. Al seleccionar un material, se mostrará
+                            su información.
+                        </p>
+
+                        <div class="row g-2 align-items-end">
+
+                            <!-- Campo: Planta -->
+                            <div class="col-md-3">
+                                <label for="Ubicacion_almacen_busqueda" class="form-label fw-semibold">Planta</label>
+                                <select id="Ubicacion_almacen_busqueda" name="Ubicacion_almacen_busqueda"
+                                    class="form-select">
+                                    <option value="Todos" selected>Todas</option>
+                                    <option value="Agua">Agua</option>
+                                    <option value="Latas">Latas</option>
+                                    <option value="Jugos">Jugos</option>
+                                </select>
+                            </div>
+
+                            <!-- Campo: Nombre del Material -->
+                            <div class="col-md-4">
+                                <label for="material-a-modificar" class="form-label fw-semibold">Nombre del
+                                    Material</label>
+                                <input type="text" id="material-a-modificar" class="form-control"
+                                    placeholder="Ingrese nombre del material" aria-describedby="descCoincidencias">
+                            </div>
+
+                            <!-- Coincidencias -->
+                            <div class="col-md-5">
+                                <label for="coincidencias-materiales"
+                                    class="form-label fw-semibold">Coincidencias</label>
+                                <select id="coincidencias-materiales" class="form-select"
+                                    aria-label="Lista de coincidencias de materiales">
+                                    <option disabled selected>Escriba al menos 2 caracteres...</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO DE GESTIÓN DE ÍTEM (oculto inicialmente) -->
+    <form id="formGestionarItem" class="d-none container mb-5" method="POST" aria-live="polite"
+        aria-label="Formulario para gestionar material seleccionado">
+        <div class="card shadow-sm border">
+
+            <!-- ENCABEZADO FRANJA NEGRA -->
+            <div class="card-header bg-dark text-white text-center fw-bold">
+                Datos del Material Seleccionado
+            </div>
+
+            <div class="card-body">
+                <p class="mb-2 small text-muted">
+                    <strong>Nota:</strong> Los campos marcados con
+                    <span class="text-danger fw-bold">*</span> son obligatorios. Pueden ser modificados,
+                    pero no deben quedar vacíos.
+                </p>
+
+                <div class="row mb-4 gx-4 gy-3">
+                    <!-- Columna imagen del material -->
+                    <div class="col-12 col-md-4 d-flex flex-column align-items-center justify-content-center">
+                        <img id="img_item_actual" src="" alt="Imagen actual del material" class="img-thumbnail mb-3"
+                            style="max-height: 200px; width: auto; object-fit: contain;">
+                        <p class="small text-muted text-center mb-0">Imagen actual del Material</p>
+                    </div>
+
+                    <!-- Columna con inputs -->
+                    <div class="col-12 col-md-8">
+                        <!-- Fila 1: Nombre, Número de Serie, Precio -->
+                        <div class="row mb-3 gx-3">
+                            <div class="col-12 col-md-5">
+                                <label for="nombre" class="form-label fw-semibold">Nombre del ítem <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" required
+                                    aria-required="true" aria-describedby="helpNombre">
+                                <div id="helpNombre" class="form-text">Nombre único del material</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="numero_serie" class="form-label fw-semibold">Número de Serie</label>
+                                <input type="text" id="numero_serie" name="numero_serie" class="form-control"
+                                    aria-describedby="helpNumSerie">
+                                <div id="helpNumSerie" class="form-text">Opcional</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="precio" class="form-label fw-semibold">Precio</label>
+                                <input type="text" id="precio" name="precio" class="form-control"
+                                    aria-describedby="helpPrecio" inputmode="decimal" pattern="[0-9]+(\.[0-9]{1,2})?">
+                                <div id="helpPrecio" class="form-text">Formato numérico</div>
+                            </div>
+                        </div>
+
+                        <!-- Fila 2: Cantidad, Ubicación -->
+                        <div class="row mb-3 gx-3">
+                            <div class="col-12 col-md-6">
+                                <label for="cantidad" class="form-label fw-semibold">Cantidad Disponible <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" id="cantidad" name="cantidad" class="form-control" min="0" required
+                                    aria-required="true" aria-describedby="helpCantidad">
+                                <div id="helpCantidad" class="form-text">Cantidad del material en almacen</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="ubicacion" class="form-label fw-semibold">Ubicación</label>
+                                <input type="text" id="ubicacion" name="ubicacion" class="form-control"
+                                    aria-describedby="helpUbicacion">
+                                <div id="helpUbicacion" class="form-text">Lugar donde se almacena el material</div>
+                            </div>
+                        </div>
+
+                        <!-- Fila 3: Tipo de Gestión y Categoría -->
+                        <div class="row mb-3 gx-3">
+                            <div class="col-12 col-md-4">
+                                <label for="tipo_gestion" class="form-label fw-semibold">Tipo de Gestión <span
+                                        class="text-danger">*</span></label>
+                                <select id="tipo_gestion" name="tipo_gestion" class="form-select" required
+                                    aria-required="true" aria-describedby="helpTipoGestion">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="Unidad">Por unidad</option>
+                                    <option value="Serie">Por número de serie</option>
+                                    <option value="Retornable">Retornable</option>
+                                </select>
+                                <div id="helpTipoGestion" class="form-text">Cómo se controla el material</div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label for="Ubicacion_almacen" class="form-label fw-semibold">Planta<span
+                                        class="text-danger">*</span></label>
+                                <select id="Ubicacion_almacen" name="Ubicacion_almacen" class="form-select" required
+                                    aria-required="true" aria-describedby="helpTipoGestion">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="Agua">Agua (SAS-1)</option>
+                                    <option value="Latas">Latas (SAS-2)</option>
+                                    <option value="Jugos">Jugos (SAS-3)</option>
+                                </select>
+                                <div id="helpTipoGestion" class="form-text">En que planta esta el Almacen</div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label for="id_categoria" class="form-label fw-semibold">Categoría <span
+                                        class="text-danger">*</span></label>
+                                <select id="id_categoria" name="id_categoria" class="form-select" required
+                                    aria-required="true" aria-describedby="helpCategoria">
+                                    <option value="" selected disabled>Cargando categorías...</option>
+                                </select>
+                                <div id="helpCategoria" class="form-text">Clasificación del material</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción del material -->
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label fw-semibold">Descripción <span
+                            class="text-danger">*</span></label>
+                    <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required
+                        aria-required="true" aria-describedby="helpDescripcion"></textarea>
+                    <div id="helpDescripcion" class="form-text">Detalles adicionales del material</div>
+                </div>
+
+                <!-- Imagen nueva -->
+                <div class="mb-3">
+                    <label for="nueva_imagen" class="form-label fw-semibold">Nueva Imagen</label>
+                    <input type="file" id="nueva_imagen" name="imagen" class="form-control" accept="image/*"
+                        aria-describedby="helpNuevaImagen">
+                    <div id="helpNuevaImagen" class="form-text">Al subir una imagen, la anterior será reemplazada.</div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="d-flex flex-column flex-md-row gap-3 mt-4">
+                    <button type="button" id="btn_cancelarCambios" class="btn btn-outline-secondary w-100"
+                        aria-label="Cancelar cambios">Cancelar Cambios</button>
+                    <button type="button" id="btnGuardarCambios" class="btn btn-success w-100"
+                        aria-label="Guardar cambios">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- ========= PIE DE PÁGINA ========= -->
+    <footer class="bg-black text-white text-center py-2 mt-auto">
+        <div class="container">
+            <div class="mb-2">
+                <input type="text" id="Buscar_nombre" class="form-control form-control-sm mx-auto w-auto"
+                    placeholder="Buscando..." />
+            </div>
+            <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+        </div>
+    </footer>
+    <!-- ========= SCRIPTS FUNCIONALES ========= -->
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Item</title>
+
+
+    <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+    <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="../Style/nav.css">
+    <link rel="stylesheet" href="../Style/centrar-nombre-footer.css">
+    <link rel="stylesheet" href="../Style/invetirLogo.css">
+    <link rel="stylesheet" href="../Style/pie-pagina.css">
+    <link rel="stylesheet" href="../Style/tablaBuscarMaterial.css">
+
+    <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+    <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+    <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+    <script src="../FuncionesJS/FuncionesCarga/Crg-gestionar-movimientos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxRegistrarMovimiento.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarMateriales.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/filtrarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/LimpiarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/Ajax_cargCategorias_busquedaMaterial.js"></script>
+
+</head>
+
+<body>
+    <!--BARRA DE NAVEGACION-->
+
+    <nav class="navbar navbar-expand-md navbar-dark"
+        style="background-color: #000000; border-bottom: 2px solid #ffffff;">
+        <div class="container-fluid">
+            <!-- Logo + Nombre -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="me-2 icon-log">
+                <!-- TÍTULO "Inventario": centrado solo visible en md+ -->
+                <div class="titulo-inventario d-none d-md-block text-white text-center mx-auto"
+                    aria-label="Título de la aplicación">
+                    Inventario
+                </div>
+            </a>
+
+            <!-- Botón hamburguesa -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú -->
+            <div class="collapse navbar-collapse" id="menuNav">
+                <ul class="navbar-nav ms-auto text-center align-items-center">
+
+                    <!-- HOME -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/home.png" alt="Home" width="20" height="20"
+                                class="me-1 icon">
+                            <a class="nav-link px-1" href="pagina-principal-usuario.html">Home</a>
+                        </div>
+                    </li>
+
+                    <!-- Mis Movimientos -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/movimiento.png" alt="Movimientos" width="20" height="20"
+                                class="me-1 icon">
+                            <a class="nav-link px-1" href="mis-movimientos.html">Mis Movimientos</a>
+                        </div>
+                    </li>
+
+                    <!-- Gestionar Item -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/item.png" alt="Item" width="20" height="20"
+                                class="me-1 icon">
+                            <a class="nav-link px-1" href="gestionar-item-usuario.html">Gestionar Material</a>
+                        </div>
+                    </li>
+
+                    <!-- Perfil -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/yo.png" alt="Perfil" width="20" height="20"
+                                class="me-1 icon">
+                            <a class="nav-link px-1" href="mi-perfil-usuario.html">Mi Perfil</a>
+                        </div>
+                    </li>
+
+                    <!-- Cerrar Sesión -->
+                    <li class="nav-item ms-3">
+                        <div id="btnCerrarSesion" class="nav-link-group d-flex align-items-center px-2 py-1"
+                            role="button" tabindex="0">
+                            <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Salir" width="20" height="20"
+                                class="me-1 icon">
+                            <span class="nav-link px-1">Cerrar Sesión</span>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container-fluid mt-4 px-3 px-md-5 mb-3">
+
+        <!-- ENCABEZADO CON BOTÓN VOLVER -->
+        <div class="position-relative mb-4 w-100">
+            <!-- Botón volver: colocado absoluto arriba-izquierda para no interferir con el título -->
+            <button class="btn btn-link text-dark p-0 position-absolute top-0 start-0" onclick="history.back()"
+                title="Volver" aria-label="Volver a la página anterior">
+                <i class="bi bi-arrow-left-circle-fill fs-3"></i>
+            </button>
+            <h2 class="text-center mb-1 fw-bold">Mover Material</h2>
+        </div>
+        <!-- ===================== -->
+        <!-- CARD DE GESTIÓN DE MATERIALES -->
+        <!-- ===================== -->
+        <div class="card shadow-sm border-0">
+            <!-- Encabezado con fondo negro -->
+            <div class="card-header bg-dark text-white text-center">
+                <h6 class="card-title fw-bold mb-0">
+                    <i class="bi bi-tools me-2"></i>Buscar material a Mover
+                </h6>
+            </div>
+
+            <!-- ======================== -->
+            <!-- BUSCADOR DE MATERIALES -->
+            <!-- ======================== -->
+            <div class="mb-4">
+                <!-- Nota explicativa -->
+                <p class="mb-3 small text-muted">
+                    <i class="bi bi-info-circle-fill me-1"></i>
+                    Selecciona la planta y la categoría del <strong>Material</strong>, y posterior a eso escribe al
+                    menos <strong>2 letras de su nombre</strong> para buscar; luego
+                    haz clic en <strong>"Mover"</strong>
+                    en la fila del material, para registrar el movimiento.
+                </p>
+
+                <!-- Fila con select y campo de búsqueda en línea -->
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-3">
+                        <label for="Ubicacion_almacen_busqueda" class="form-label fw-semibold">Planta</label>
+                        <select id="Ubicacion_almacen_busqueda" name="Ubicacion_almacen_busqueda" class="form-select">
+                            <option value="Todos" selected>Todas</option>
+                            <option value="Agua">Agua</option>
+                            <option value="Latas">Latas</option>
+                            <option value="Jugos">Jugos</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Ubicacion_almacen_busqueda" class="form-label fw-semibold">Categoría</label>
+                        <select id="id_categoria" name="id_categoria" class="form-select" required>
+                            <option value="Todos" selected disabled>Todos</option>
+                            <!-- Se llena dinámicamente con JS -->
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="busqueda_material" class="form-label fw-semibold">Buscar material</label>
+                        <div class="input-group">
+                            <input type="text" id="busqueda_material" class="form-control"
+                                placeholder="Ejemplo: desarmador, guantes, martillo...">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- TABLA RESPONSIVE DE RESULTADOS -->
+            <!-- ============================= -->
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Cantidad</th>
+                            <th>N° Serie</th>
+                            <th>Planta</th>
+                            <th>Ubicación dentro de Almacén</th>
+                            <th>Descripción</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_resultados">
+                        <!-- Contenido dinámico generado por AJAX -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================ -->
+    <!-- MODAL: REGISTRO DE MOVIMIENTO -->
+    <!-- ============================ -->
+    <div class="modal fade" id="modalMovimiento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="formMovimiento">
+                    <!-- Encabezado del modal -->
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Registrar Movimiento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <!-- Cuerpo del formulario -->
+                    <div class="modal-body row g-3">
+                        <!-- ID oculto del material -->
+                        <input type="hidden" id="id_material_modal" name="id_material">
+
+                        <!-- Tipo de movimiento -->
+                        <div class="col-md-6">
+                            <label for="tipo_movimiento" class="form-label">Tipo de Movimiento:</label>
+                            <select class="form-select" name="tipo" id="tipo_movimiento" required>
+                                <option value="">Seleccionar</option>
+                                <option value="salida">Salida</option>
+                                <option value="retorno">Retorno</option>
+                                <option value="entrada">Entrada</option>
+                            </select>
+                        </div>
+
+                        <!-- Cantidad -->
+                        <div class="col-md-6">
+                            <label for="cantidad_movimiento" class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" name="cantidad" id="cantidad_movimiento" min="1"
+                                required>
+                        </div>
+
+                        <!-- Motivo -->
+                        <div class="col-12">
+                            <label for="motivo_movimiento" class="form-label">Motivo:</label>
+                            <input type="text" class="form-control" name="descripcion_salida" id="motivo_movimiento"
+                                required>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="col-12">
+                            <label for="observaciones_movimiento" class="form-label">Observaciones:</label>
+                            <textarea class="form-control" name="observaciones" id="observaciones_movimiento"
+                                rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Footer con botones -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-black text-white text-center py-2 mt-auto">
+        <div class="container">
+            <div class="mb-2">
+                <input type="text" id="Buscar_nombre" class="form-control form-control-sm mx-auto w-auto"
+                    placeholder="Buscando..." readonly>
+            </div>
+            <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

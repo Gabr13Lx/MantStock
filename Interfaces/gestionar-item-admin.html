@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Item</title>
+
+
+    <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+    <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="../Style/nav.css">
+    <link rel="stylesheet" href="../Style/centrar-nombre-footer.css">
+    <link rel="stylesheet" href="../Style/invetirLogo.css">
+    <link rel="stylesheet" href="../Style/pie-pagina.css">
+    <link rel="stylesheet" href="../Style/tablaBuscarMaterial.css">
+
+    <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+    <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+    <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+    <script src="../FuncionesJS/FuncionesCarga/Crg-gestionar-movimientos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxRegistrarMovimiento.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarMateriales.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/filtrarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/LimpiarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/Ajax_cargCategorias_busquedaMaterial.js"></script>
+
+
+</head>
+
+<body>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #000; border-bottom: 2px solid #fff;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- LOGO: clicable, a la izquierda -->
+            <a class="navbar-brand d-flex align-items-center" href="pagina-principal-admin.html" aria-label="Inicio">
+                <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="me-2 icon-log">
+            </a>
+
+            <!-- TÍTULO "Inventario": centrado solo visible en md+ -->
+            <div class="titulo-inventario d-none d-md-block text-white text-center mx-auto"
+                aria-label="Título de la aplicación">
+                Inventario
+            </div>
+
+            <!-- BOTÓN HAMBURGUESA: visible en móvil, derecha -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav"
+                aria-controls="menuNav" aria-expanded="false" aria-label="Alternar menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <!-- MENÚ DESPLEGABLE: centrado en móvil, horizontal en desktop -->
+        <div class="collapse navbar-collapse" id="menuNav">
+            <ul class="navbar-nav mx-auto nav-menu-reducido" role="menu">
+                <!-- HOME -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="pagina-principal-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/home.png" alt="Icono Home" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <!-- USUARIOS (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="usuariosDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/users.png" alt="Icono Usuarios" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Usuarios</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="usuariosDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-usuario.html" role="menuitem">Crear
+                                Usuario</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-usuarios.html"
+                                role="menuitem">Gestionar Usuarios</a></li>
+                    </ul>
+                </li>
+
+                <!-- ALMACÉN (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="almacenDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/item.png" alt="Icono Almacén" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Almacén</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="almacenDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="alta-item.html" role="menuitem">Alta de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestion-item.html" role="menuitem">Gestión de
+                                Material</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-item-admin.html" role="menuitem">Mover
+                                Material</a></li>
+                    </ul>
+                </li>
+
+                <!-- CATEGORÍA (Dropdown) -->
+                <li class="nav-item dropdown" role="none">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-link-group" href="#"
+                        id="categoriaDropdown" role="menuitem" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="RecursosVisuales/Iconos/categoria.png" alt="Icono Categoría" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Categoría</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoriaDropdown" role="menu">
+                        <li role="none"><a class="dropdown-item" href="crear-categoria.html" role="menuitem">Crear
+                                Categoría</a></li>
+                        <li role="none"><a class="dropdown-item" href="gestionar-categorias.html"
+                                role="menuitem">Gestionar Categorías</a></li>
+                    </ul>
+                </li>
+
+                <!-- MOVIMIENTOS -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="movimientos-item.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/historial.png" alt="Icono Movimientos" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Movimientos</span>
+                    </a>
+                </li>
+
+                <!-- PERFIL -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" href="mi-perfil-admin.html"
+                        role="menuitem">
+                        <img src="RecursosVisuales/Iconos/yo.png" alt="Icono Perfil" width="20" height="20"
+                            class="me-2 icon" />
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+
+                <!-- CERRAR SESIÓN -->
+                <li class="nav-item" role="none">
+                    <a class="nav-link d-flex align-items-center nav-link-group" id="btnCerrarSesion" role="button"
+                        tabindex="0">
+                        <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Icono Cerrar Sesión" width="20"
+                            height="20" class="me-2 icon" />
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container-fluid mt-4 px-3 px-md-5 mb-3">
+
+        <!-- ENCABEZADO CON BOTÓN VOLVER -->
+        <div class="position-relative mb-4 w-100">
+            <!-- Botón volver: colocado absoluto arriba-izquierda para no interferir con el título -->
+            <button class="btn btn-link text-dark p-0 position-absolute top-0 start-0" onclick="history.back()"
+                title="Volver" aria-label="Volver a la página anterior">
+                <i class="bi bi-arrow-left-circle-fill fs-3"></i>
+            </button>
+            <h2 class="text-center mb-1 fw-bold">Mover Material</h2>
+        </div>
+        <!-- ===================== -->
+        <!-- CARD DE GESTIÓN DE MATERIALES -->
+        <!-- ===================== -->
+        <div class="card shadow-sm border-0">
+            <!-- Encabezado con fondo negro -->
+            <div class="card-header bg-dark text-white text-center">
+                <h6 class="card-title fw-bold mb-0">
+                    <i class="bi bi-tools me-2"></i>Buscar material a Mover
+                </h6>
+            </div>
+
+            <!-- ======================== -->
+            <!-- BUSCADOR DE MATERIALES -->
+            <!-- ======================== -->
+            <div class="mb-4">
+                <!-- Nota explicativa -->
+                <p class="mb-3 small text-muted">
+                    <i class="bi bi-info-circle-fill me-1"></i>
+                    Selecciona la planta y la categoría del <strong>Material</strong>, y posterior a eso escribe al menos <strong>2 letras de su nombre</strong> para buscar; luego
+                    haz clic en <strong>"Mover"</strong>
+                    en la fila del material, para registrar el movimiento.
+                </p>
+
+                <!-- Fila con select y campo de búsqueda en línea -->
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-3">
+                        <label for="Ubicacion_almacen_busqueda" class="form-label fw-semibold">Planta</label>
+                        <select id="Ubicacion_almacen_busqueda" name="Ubicacion_almacen_busqueda" class="form-select">
+                            <option value="Todos" selected>Todas</option>
+                            <option value="Agua">Agua</option>
+                            <option value="Latas">Latas</option>
+                            <option value="Jugos">Jugos</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Ubicacion_almacen_busqueda" class="form-label fw-semibold">Categoría</label>
+                        <select id="id_categoria" name="id_categoria" class="form-select" required>
+                            <option value="Todos" selected disabled>Todos</option>
+                            <!-- Se llena dinámicamente con JS -->
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="busqueda_material" class="form-label fw-semibold">Buscar material</label>
+                        <div class="input-group">
+                            <input type="text" id="busqueda_material" class="form-control"
+                                placeholder="Ejemplo: desarmador, guantes, martillo...">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- TABLA RESPONSIVE DE RESULTADOS -->
+            <!-- ============================= -->
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Cantidad</th>
+                            <th>N° Serie</th>
+                            <th>Planta</th>
+                            <th>Ubicación dentro de Almacén</th>
+                            <th>Descripción</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_resultados">
+                        <!-- Contenido dinámico generado por AJAX -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================ -->
+    <!-- MODAL: REGISTRO DE MOVIMIENTO -->
+    <!-- ============================ -->
+    <div class="modal fade" id="modalMovimiento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="formMovimiento">
+                    <!-- Encabezado del modal -->
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Registrar Movimiento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <!-- Cuerpo del formulario -->
+                    <div class="modal-body row g-3">
+                        <!-- ID oculto del material -->
+                        <input type="hidden" id="id_material_modal" name="id_material">
+
+                        <!-- Tipo de movimiento -->
+                        <div class="col-md-6">
+                            <label for="tipo_movimiento" class="form-label">Tipo de Movimiento:</label>
+                            <select class="form-select" name="tipo" id="tipo_movimiento" required>
+                                <option value="">Seleccionar</option>
+                                <option value="salida">Salida</option>
+                                <option value="retorno">Retorno</option>
+                                <option value="entrada">Entrada</option>
+                            </select>
+                        </div>
+
+                        <!-- Cantidad -->
+                        <div class="col-md-6">
+                            <label for="cantidad_movimiento" class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" name="cantidad" id="cantidad_movimiento" min="1"
+                                required>
+                        </div>
+
+                        <!-- Motivo -->
+                        <div class="col-12">
+                            <label for="motivo_movimiento" class="form-label">Motivo:</label>
+                            <input type="text" class="form-control" name="descripcion_salida" id="motivo_movimiento"
+                                required>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="col-12">
+                            <label for="observaciones_movimiento" class="form-label">Observaciones:</label>
+                            <textarea class="form-control" name="observaciones" id="observaciones_movimiento"
+                                rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Footer con botones -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-black text-white text-center py-2 mt-auto">
+        <div class="container">
+            <div class="mb-2">
+                <input type="text" id="Buscar_nombre" class="form-control form-control-sm mx-auto w-auto"
+                    placeholder="Buscando..." readonly>
+            </div>
+            <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

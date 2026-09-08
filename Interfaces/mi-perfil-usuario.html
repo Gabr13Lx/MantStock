@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mi Perfil</title>
+
+
+    <!-- ========= RECURSOS VISUALES Y ESTILOS ========= -->
+    <link rel="icon" href="RecursosVisuales/Favicon/Favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../Style/nav.css" />
+    <link rel="stylesheet" href="../Style/pie-pagina.css" />
+    <link rel="stylesheet" href="../Style/invetirLogo.css" />
+
+    <!-- ========= LIBRERÍAS JS EXTERNAS Y ALERTAS ========= -->
+    <script src="../assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- ========= FUNCIONES JS DEL SISTEMA ========= -->
+    <script src="../FuncionesJS/FuncionesCarga/Crg-perfil-usr-normal.js"></script>
+
+    <script src="../FuncionesJS/FuncionesLogicas/CrearAjax.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCerrarSesion.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/filtrarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxBuscarNombre.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCambiarContraseña.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/LimpiarCampos.js"></script>
+    <script src="../FuncionesJS/FuncionesLogicas/AjaxCargarDatosPerfil.js"></script>
+    <script src="../FuncionesJS/FuncionSeguridad/seguridad.js"></script>
+
+</head>
+
+<body>
+    <!--BARRA DE NAVEGACION-->
+
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #000; border-bottom: 2px solid #fff;">
+        <div class="container-fluid">
+            <!-- Logo + Nombre -->
+             <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="RecursosVisuales/Logos/sasLogo.png" alt="Logo" width="130" height="50" class="me-2 icon-log">
+                <!-- TÍTULO "Inventario": centrado solo visible en md+ -->
+                <div class="titulo-inventario d-none d-md-block text-white text-center mx-auto"
+                    aria-label="Título de la aplicación">
+                    Inventario
+                </div>
+            </a>
+
+            <!-- Botón hamburguesa -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú -->
+            <div class="collapse navbar-collapse" id="menuNav">
+                <ul class="navbar-nav ms-auto text-center align-items-center">
+                    <!-- HOME -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/home.png" alt="Home" width="20" height="20"
+                                class="me-1 icon" />
+                            <a class="nav-link px-1 text-white" href="pagina-principal-usuario.html">Home</a>
+                        </div>
+                    </li>
+
+                    <!-- Mis Movimientos -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/movimiento.png" alt="Movimientos" width="20" height="20"
+                                class="me-1 icon" />
+                            <a class="nav-link px-1 text-white" href="mis-movimientos.html">Mis Movimientos</a>
+                        </div>
+                    </li>
+
+                    <!-- Gestionar Item -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/item.png" alt="Item" width="20" height="20"
+                                class="me-1 icon" />
+                            <a class="nav-link px-1 text-white" href="gestionar-item-usuario.html">Gestionar Material</a>
+                        </div>
+                    </li>
+
+                    <!-- Perfil -->
+                    <li class="nav-item ms-3">
+                        <div class="nav-link-group d-flex align-items-center px-2 py-1">
+                            <img src="RecursosVisuales/Iconos/yo.png" alt="Perfil" width="20" height="20"
+                                class="me-1 icon" />
+                            <a class="nav-link px-1 text-white" href="mi-perfil-usuario.html">Mi Perfil</a>
+                        </div>
+                    </li>
+
+                    <!-- Cerrar Sesión -->
+                    <li class="nav-item ms-3">
+                        <div id="btnCerrarSesion" class="nav-link-group d-flex align-items-center px-2 py-1"
+                            role="button" tabindex="0">
+                            <img src="RecursosVisuales/Iconos/cerrar-sesion.png" alt="Salir" width="20" height="20"
+                                class="me-1 icon" />
+                            <span class="nav-link px-1 text-white">Cerrar Sesión</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- FORMULARIO GENERAL -->
+        <form id="form-perfil-usuario" autocomplete="off" novalidate>
+            <!-- ENCABEZADO -->
+            <div class="position-relative mb-5">
+                <div class="position-absolute top-0 start-0">
+                    <button class="btn btn-link text-dark p-0" onclick="history.back()" title="Volver">
+                        <i class="bi bi-arrow-left-circle-fill fs-3"></i>
+                    </button>
+                </div>
+                <h2 class="text-center mb-1 fw-bold">Mi Perfil</h2>
+            </div>
+            <!-- CONTENEDOR GENERAL CON CARD -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <!-- TÍTULO: DATOS PERSONALES -->
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>Datos Personales</h5>
+                </div>
+
+                <!-- CUERPO: DATOS PERSONALES -->
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="perfil_id">ID</label>
+                            <input type="text" class="form-control fw-bold text-dark" id="perfil_id" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="perfil_nombre">Nombre</label>
+                            <input type="text" class="form-control fw-bold text-dark" id="perfil_nombre" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="perfil_apellido">Apellido</label>
+                            <input type="text" class="form-control fw-bold text-dark" id="perfil_apellido" readonly />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label" for="perfil_correo">Correo</label>
+                            <input type="email" class="form-control fw-bold text-dark" id="perfil_correo" readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="perfil_rol">Rol</label>
+                            <input type="text" class="form-control fw-bold text-dark" id="perfil_rol" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TÍTULO: CAMBIAR CONTRASEÑA -->
+                <div class="card-header bg-dark text-white mt-3">
+                    <h5 class="mb-0"><i class="bi bi-shield-lock-fill me-2"></i>Cambiar Contraseña</h5>
+                </div>
+
+                <!-- CUERPO: CAMBIAR CONTRASEÑA -->
+                <div class="card-body">
+                    <div class="row align-items-end">
+                        <!-- NUEVA CONTRASEÑA -->
+                        <div class="col-md-5 mb-3">
+                            <label class="form-label" for="nueva_contraseña">Nueva Contraseña</label>
+                            <input type="password" class="form-control text-secondary" id="nueva_contraseña"
+                                placeholder="••••••••" autocomplete="new-password"
+                                onfocus="this.classList.remove('text-secondary'); this.classList.add('text-dark');"
+                                onblur="if(!this.value) {this.classList.remove('text-dark'); this.classList.add('text-secondary');}" />
+                        </div>
+
+                        <!-- REPETIR CONTRASEÑA -->
+                        <div class="col-md-5 mb-3">
+                            <label class="form-label" for="repetir_contraseña">Repetir Contraseña</label>
+                            <input type="password" class="form-control text-secondary" id="repetir_contraseña"
+                                placeholder="••••••••" autocomplete="new-password"
+                                onfocus="this.classList.remove('text-secondary'); this.classList.add('text-dark');"
+                                onblur="if(!this.value) {this.classList.remove('text-dark'); this.classList.add('text-secondary');}" />
+                        </div>
+
+                        <!-- BOTÓN -->
+                        <div class="col-md-2 mb-3 d-grid">
+                            <input type="button" class="btn btn-primary" id="btn_actualizar_contraseña"
+                                value="Actualizar" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-black text-white text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-0 small">Versión 1.0 | © 2025 Sistema de Inventario -MantStock</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

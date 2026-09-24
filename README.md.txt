@@ -85,3 +85,19 @@ MantStock/
 1. Clonar el repositorio en la carpeta `htdocs` de XAMPP o `www` de WAMP:
 
    git clone https://github.com/tu-usuario/gestion-desarrollo-software-equipo01.git
+
+## Documentación adicional
+
+- [Documentación de Endpoints](Documentación/API-Endpoints.md)
+- [Guía de Instalación](Documentación/05 - Instalación .pdf)
+- [Pruebas y Validación](Documentación/04 - Pruebas y Validación.pdf)
+
+## Convenciones de commits
+
+Este proyecto sigue la convención de [Conventional Commits](https://www.conventionalcommits.org/):
+- `feat:` nueva funcionalidad
+- `fix:` corrección de errores
+- `docs:` documentación
+- `style:` formato (sin cambios de lógica)
+- `test:` pruebas
+- `chore:` tareas de mantenimiento

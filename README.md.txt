@@ -45,7 +45,11 @@ Sistema de gestión de inventarios desarrollado en PHP, JavaScript y MySQL, que 
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Base de datos:** MySQL 5.7+
 - **Estilos:** CSS puro
-- **Servidor:** Apache (XAMPP/
+- **Servidor:** Apache (XAMPP/WAMP)
+
+
+## Estructura del proyecto
+MantStock/
 ├── assets/ # Recursos multimedia (imágenes, fuentes, etc.)
 ├── ConexionesPHP/ # Archivos de conexión a la base de datos
 ├── DataBase/ # Scripts y estructura de la base de datos
@@ -62,4 +66,22 @@ Sistema de gestión de inventarios desarrollado en PHP, JavaScript y MySQL, que 
 | Módulo/Carpeta | Funcionalidad principal 
 |----------------|------------------------------------------------
 | ConexionesPHP  | Conexión a la base de datos y consultas SQL 
-| DataBase    
+| DataBase       | Diseño y estructura de la base de datos 
+| FuncionesJS    | Validaciones y funciones del lado del cliente 
+| Interfaces     | Diseño de las vistas y plantillas HTML 
+| Style          | Estilos CSS y diseño visual 
+| assets         | Recursos multimedia e imágenes 
+| index.html     | Página de inicio y acceso al sistema 
+| Documentación  | Manuales y documentación del proyecto 
+
+
+## Requisitos e instalación
+
+### Requisitos previos
+- XAMPP o WAMP con PHP 7.4+ y MySQL 5.7+
+- Navegador web (Chrome, Firefox, Edge, etc.)
+
+### Pasos de instalación
+1. Clonar el repositorio en la carpeta `htdocs` de XAMPP o `www` de WAMP:
+
+   git clone https://github.com/tu-usuario/gestion-desarrollo-software-equipo01.git

@@ -1,4 +1,12 @@
 <?php
+/**
+ * buscarItemPorID.php
+ * Endpoint para buscar un ítem del inventario por su ID.
+ *
+ * @author  Angel Eli Bonifacio Galvez
+ * @team    MantStock
+ */
+
 session_start();
 require('../ConexionDB/conexion.php');
 

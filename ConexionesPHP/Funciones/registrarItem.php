@@ -1,5 +1,14 @@
 <?php
-// Iniciar sesión y verificar si hay un usuario autenticado
+/*
+ * registrarItem.php
+ * Endpoint para registrar un nuevo ítem en el inventario.
+ *
+ * @author  Gabriel Anuar Acosta Rosales
+ * @team    MantStock - Gestión de Proceso de Desarrollo de Software
+ * @since   2026
+ */
+
+ // Iniciar sesión y verificar si hay un usuario autenticado
 session_start();
 
 // Establecer conexión con la base de datos

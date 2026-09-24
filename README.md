@@ -1,4 +1,4 @@
-# MantStock - Sistema de Gestión de Inventarios
+# MantStock - Sistema de Gestión de Inventarios [Validaciones Implementadas]
 
 ## Descripción
 Sistema de gestión de inventarios desarrollado en PHP, JavaScript y MySQL, que permite el control de productos, movimientos de stock, usuarios y generación de reportes.

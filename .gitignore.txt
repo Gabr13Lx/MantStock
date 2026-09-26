@@ -26,6 +26,7 @@ npm-debug.log*
 
 # Archivos subidos por usuarios
 uploads/
+.vs/
 
 # Archivos del sistema
 .DS_Store

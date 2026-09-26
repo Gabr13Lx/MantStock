@@ -1,0 +1,70 @@
+# ============================================================
+# Pipeline CI/CD para MantStock
+# Dispara en push a main y en Pull Requests hacia main
+# ============================================================
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, pdo, pdo_mysql
+          coverage: none
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validar sintaxis PHP
+        run: |
+          echo "Validando sintaxis PHP..."
+          find ConexionesPHP -name "*.php" -exec php -l {} \;
+          echo "Sintaxis PHP OK"
+
+      - name: Validar sintaxis JavaScript
+        run: |
+          echo "Validando sintaxis JS..."
+          find FuncionesJS assets -name "*.js" ! -name "*.min.js" -exec node --check {} \;
+          echo "Sintaxis JS OK"
+
+      - name: Ejecutar pruebas
+        run: php tests/run-tests.php
+
+      - name: Generar artefacto de build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p build
+          zip -r build/mantstock.zip . \
+            -x "uploads/*" \
+            -x "Documentación/*" \
+            -x "tests/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".DS_Store" \
+            -x "build/*"
+          echo "Artefacto generado:"
+          ls -lh build/
+
+      - name: Subir artefacto
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mantstock-build
+          path: build/mantstock.zip
+          retention-days: 30

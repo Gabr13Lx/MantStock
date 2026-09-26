@@ -11,7 +11,7 @@ if (!$cn->connect_errno) {
 
     // Validar si se obtuvo correctamente un resultado
     if ($busqueda->num_rows > 0 && $busqueda->num_rows < 2) {
-        $id_usuario = $busqueda->fetch_array()
+        $id_usuario = $busqueda->fetch_array();
         echo $id_usuario[0]; // Devuelve el último ID de usuario
     } else {
         echo "Error-Busqueda"; // Falla en la consulta o resultados inconsistentes

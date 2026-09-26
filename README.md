@@ -85,3 +85,6 @@ MantStock/
 1. Clonar el repositorio en la carpeta `htdocs` de XAMPP o `www` de WAMP:
 
    git clone https://github.com/tu-usuario/gestion-desarrollo-software-equipo01.git
+
+### Prueba de PR con CI" >> README.md
+Este cambio prueba la validación automática del pipeline.

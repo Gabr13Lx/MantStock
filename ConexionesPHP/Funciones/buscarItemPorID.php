@@ -10,7 +10,7 @@
 session_start();
 require('../ConexionDB/conexion.php');
 
-$nombre = trim($_POST['nombre'] ?? '')
+$nombre = trim($_POST['nombre'] ?? '');
 if ($nombre === '') {
     echo json_encode(["error" => "Por favor, escribe el nombre del material para buscar."]);
     exit;

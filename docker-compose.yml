@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mantstock-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mantstock
+      MYSQL_USER: mantstock_user
+      MYSQL_PASSWORD: mantstock_pass
+    ports:
+      - "13306:3306"
+    volumes:
+      - mantstock_data:/var/lib/mysql
+      - ./Database:/docker-entrypoint-initdb.d
+    networks:
+      - mantstock_net
+
+  web:
+    build: .
+    container_name: mantstock-web
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    networks:
+      - mantstock_net
+
+volumes:
+  mantstock_data:
+
+networks:
+  mantstock_net:
+    driver: bridge

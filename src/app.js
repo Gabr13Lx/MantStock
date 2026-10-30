@@ -24,6 +24,10 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'activo', timestamp: new Date() });
 });
 
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor Node.js corriendo en http://0.0.0.0:${PORT}`);
+});
+
 // 3. Endpoint /api/visitas (Conectado a Redis)
 app.get('/api/visitas', async (req, res) => {
     try {

@@ -1,25 +1,21 @@
-# ============================================
-# Dockerfile - MantStock Web (Apache + PHP)
-# ============================================
-FROM php:8.2-apache
+# 1. Imagen base: Node.js versi贸n 20 en Alpine (ligera y segura)
+FROM node:20-alpine
 
-LABEL maintainer="Equipo 01 - UTVF"
-LABEL description="MantStock - Sistema de gesti髇 de inventarios"
+# 2. Directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-# Instalar extensiones PHP necesarias para conectar a MySQL
-RUN docker-php-ext-install mysqli pdo pdo_mysql \
-    && a2enmod rewrite
+# 3. Copiamos solo los archivos de dependencias primero (para aprovechar la cach茅 de Docker)
+COPY package*.json ./
 
-# Copiar el c骴igo del proyecto al DocumentRoot de Apache
-COPY . /var/www/html/
+# 4. Instalamos dependencias de producci贸n (sin las de desarrollo)
+RUN npm ci --omit=dev
 
-# Crear carpeta uploads y dar permisos al usuario www-data
-RUN mkdir -p /var/www/html/uploads \
-    && chown -R www-data:www-data /var/www/html/uploads \
-    && chmod -R 755 /var/www/html/uploads
+# 5. Copiamos el resto del c贸digo fuente (solo la carpeta src)
+COPY src ./src
 
-# Exponer el puerto HTTP
-EXPOSE 80
+# 6. Variables de entorno y puerto
+ENV PORT=3000
+EXPOSE 3000
 
-# Apache en primer plano (equivalente al ENTRYPOINT del art韈ulo)
-CMD ["apache2-foreground"]
+# 7. Comando para iniciar la aplicaci贸n
+CMD ["node", "src/app.js"]

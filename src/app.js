@@ -4,17 +4,19 @@ const redis = require('redis');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuración de Redis usando la variable de entorno REDIS_URL
-// Si no existe, usa 'redis://redis:6379' (el nombre del servicio en Docker Compose)
+// Configuración de Redis
 const redisUrl = process.env.REDIS_URL || 'redis://redis:6379';
 const redisClient = redis.createClient({ url: redisUrl });
 
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
+// Manejo de errores de Redis (Evita que la app se caiga)
+redisClient.on('error', (err) => {
+    console.error('⚠️ Error de conexión a Redis:', err.message);
+});
 
-// Middleware para manejar JSON (opcional, pero buena práctica)
+// Middleware
 app.use(express.json());
 
-// 1. Endpoint principal: Título "Control de visitas"
+// 1. Endpoint principal
 app.get('/', (req, res) => {
     res.send('<h1>Control de visitas</h1><p>Bienvenido a MantStock - Módulo Node.js</p>');
 });
@@ -24,22 +26,19 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'activo', timestamp: new Date() });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Servidor Node.js corriendo en http://0.0.0.0:${PORT}`);
-});
-
-// 3. Endpoint /api/visitas (Conectado a Redis)
+// 3. Endpoint /api/visitas
 app.get('/api/visitas', async (req, res) => {
     try {
-        // Incrementa el contador en Redis
+        if (!redisClient.isOpen) {
+            await redisClient.connect(); // Intenta conectar si no está abierto
+        }
         const visitas = await redisClient.incr('contador_visitas');
         res.json({ 
             mensaje: 'Visita registrada', 
             total_visitas: visitas 
         });
     } catch (error) {
-        // Manejo de error controlado si Redis no está disponible
-        console.error('Error conectando a Redis:', error);
+        console.error('Error en /api/visitas:', error.message);
         res.status(500).json({ 
             error: 'Servicio de visitas no disponible', 
             detalle: 'No se pudo conectar a Redis' 
@@ -49,12 +48,15 @@ app.get('/api/visitas', async (req, res) => {
 
 // Iniciar servidor
 if (require.main === module) {
-    redisClient.connect().then(() => {
-        app.listen(PORT, '0.0.0.0', () => {
-            console.log(`Servidor Node.js corriendo en http://0.0.0.0:${PORT}`);
-        });
+    // Intentamos conectar a Redis en segundo plano, pero SIN bloquear el arranque del servidor
+    redisClient.connect().catch((err) => {
+        console.error('⚠️ Alerta: No se pudo conectar a Redis al inicio:', err.message);
+    });
+
+    // Levantamos el servidor SIEMPRE
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Servidor Node.js corriendo en http://0.0.0.0:${PORT}`);
     });
 }
 
-// Exportamos app para las pruebas (test/app.test.js)
 module.exports = app;

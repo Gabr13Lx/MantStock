@@ -1,8 +1,8 @@
 <?php
 // Lee las variables de entorno de Docker. Si no existen (local), usa valores por defecto.
-$host = getenv('DB_HOST') ?: 'localhost';
+$host = getenv('DB_HOST') ?: 'mantstock-db';
 $user = getenv('DB_USER') ?: 'root';
-$pass = getenv('DB_PASSWORD') ?: 'mysq1123';
+$pass = getenv('DB_PASSWORD') ?: 'root';
 $dbname = getenv('DB_NAME') ?: 'MantStock';
 
 // Crea la conexión

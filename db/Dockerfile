@@ -1,17 +1,14 @@
-# ============================================
-# Dockerfile - MantStock DB (MySQL)
-# ============================================
-FROM mysql:8.0
+# Usamos la imagen oficial de PHP 8.2 con Apache
+FROM php:8.2-apache
 
-LABEL maintainer="Equipo 01 - UTVF"
+# Instalamos la extensión mysqli necesaria para conectar con MySQL
+RUN docker-php-ext-install mysqli
 
-# Variables por defecto (se pueden sobreescribir)
-ENV MYSQL_ROOT_PASSWORD=rootpass
-ENV MYSQL_DATABASE=mantstock
-ENV MYSQL_USER=mantstock_user
-ENV MYSQL_PASSWORD=mantstock_pass
+# Copiamos todo el proyecto al directorio raíz de Apache
+COPY . /var/www/html/
 
-# Scripts SQL que se ejecutan al inicializar la BD
-COPY ../Database/ /docker-entrypoint-initdb.d/
+# Creamos la carpeta uploads y le damos permisos de escritura a Apache
+RUN mkdir -p /var/www/html/uploads && chown -R www-data:www-data /var/www/html/uploads && chmod -R 775 /var/www/html/uploads
 
-EXPOSE 3306
+# Exponemos el puerto 80 (interno)
+EXPOSE 80

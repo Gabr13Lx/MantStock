@@ -1,4 +1,15 @@
 <?php
-// Credenciales de la DB: ("Ruta", "usuario", "contraseña", "nombre de DB");
-$cn = new mysqli("db", "root", "mysql123", "MantStock");
+// Lee las variables de entorno de Docker. Si no existen (local), usa valores por defecto.
+$host = getenv('DB_HOST') ?: 'localhost';
+$user = getenv('DB_USER') ?: 'root';
+$pass = getenv('DB_PASSWORD') ?: 'mysq1123';
+$dbname = getenv('DB_NAME') ?: 'MantStock';
+
+// Crea la conexión
+$cn = new mysqli($host, $user, $pass, $dbname);
+
+// Verifica si hay errores
+if ($cn->connect_error) {
+    die("Error de conexión: " . $cn->connect_error);
+}
 ?>

@@ -1,21 +1,14 @@
-# 1. Imagen base: Node.js versión 20 en Alpine (ligera y segura)
-FROM node:20-alpine
+# Usamos la imagen oficial de PHP 8.2 con Apache
+FROM php:8.2-apache
 
-# 2. Directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Instalamos la extensión mysqli necesaria para conectar con MySQL
+RUN docker-php-ext-install mysqli
 
-# 3. Copiamos solo los archivos de dependencias primero (para aprovechar la caché de Docker)
-COPY package*.json ./
+# Copiamos todo el proyecto al directorio raíz de Apache
+COPY . /var/www/html/
 
-# 4. Instalamos dependencias de producción (sin las de desarrollo)
-RUN npm ci --omit=dev
+# Creamos la carpeta uploads y le damos permisos a Apache
+RUN mkdir -p /var/www/html/uploads && chown -R www-data:www-data /var/www/html/uploads && chmod -R 775 /var/www/html/uploads
 
-# 5. Copiamos el resto del código fuente (solo la carpeta src)
-COPY src ./src
-
-# 6. Variables de entorno y puerto
-ENV PORT=3000
-EXPOSE 3000
-
-# 7. Comando para iniciar la aplicación
-CMD ["node", "src/app.js"]
+# Exponemos el puerto 80
+EXPOSE 80

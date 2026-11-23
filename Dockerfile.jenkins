@@ -4,11 +4,13 @@ FROM jenkins/jenkins:lts
 # Cambiamos a root para instalar paquetes
 USER root
 
-# Instalamos Docker CLI y Docker Compose
+# Instalamos Docker CLI, Docker Compose y PHP con extensiones
 RUN apt-get update && \
-    apt-get install -y docker.io docker-compose && \
+    apt-get install -y docker.io docker-compose php php-cli php-mysql php-mbstring && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Volvemos al usuario original de Jenkins
 USER jenkins
+
+

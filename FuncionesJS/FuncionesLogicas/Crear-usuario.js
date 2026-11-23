@@ -54,7 +54,7 @@ function altaDataBaseUsr() {
 
     con_alta_db = crearAjax();
     con_alta_db.onreadystatechange = esperaAltaDB;
-    con_alta_db.open("POST", "../ConexionesPHP/Funciones/altaUsuario.php", true);
+    con_alta_db.open("POST", "/ConexionesPHP/Funciones/altaUsuario.php", true);
     con_alta_db.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     con_alta_db.send(
         "nombre=" + encodeURIComponent(nombre) +
